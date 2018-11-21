@@ -1,0 +1,47 @@
+wget https://raw.githubusercontent.com/stedy/Machine-Learning-with-R-datasets/master/credit.csv
+
+credit <- read.csv("credit.csv")
+
+str(credit)
+
+summary(credit)
+
+table(credit$chec....)
+
+table(credit$default)
+
+
+//In R,
+the sample() function is used to perform random sampling.However, before putting
+it in action, a common practice is to set a seed value, which causes the randomization
+process to follow a sequence that can be replicated later on if desire
+You may wonder how a so-called random process can be seeded to
+produce an identical result. This is due to the fact that computers use
+a mathematical function called a pseudorandom number generator to
+create random number sequences that appear to act very random, but
+are actually quite predictable given knowledge of the previous values in
+the sequence. In practice, modern pseudorandom number sequences are
+virtually indistinguishable from true random sequences, but have the
+benefit that computers can generate them quickly and easily.
+
+
+set.seed(123)
+train_sample<-sample(1000,900)
+str(train_sample)
+credit_train<-credit[train_sample,]
+credit_test<-credit[-train_sample,]
+prop.table(table(credit_train$default))
+prop.table(table(credit_test$default))
+
+install.packages("C50")
+library(C50)
+
+> credit_train$default<-as.factor(credit_train$default)
+> credit_model <- C5.0(credit_train[-17],credit_train$default)
+
+credit_pred<-predict(credit_model,credit_test)
+> library(gmodels)
+> CrossTable(credit_test$default, credit_pred,
++            prop.chisq = FALSE, prop.c = FALSE, prop.r = FALSE,
++            dnn = c('actual default', 'predicted default'))
+
