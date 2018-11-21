@@ -1,0 +1,43 @@
+wget https://raw.githubusercontent.com/stedy/Machine-Learning-with-R-datasets/master/groceries.csv
+
+install.packages("arules")
+library(arules)
+library(kernlab)
+library(modeltools)
+library(base)
+library(arules)
+groceries<-read.transactions("groceries.csv",sep=",")
+groceries
+summary(groceries)
+str(groceries)
+inspect(groceries[1:5])
+itemFrequency(groceries[1:3])
+itemFrequency(groceries[,1:3])
+itemFrequencyPlot(groceries,support=0.1)
+itemFrequencyPlot(groceries,topN=20)
+image(groceries)
+image(groceries[1:5])
+image(sample(groceries,100))
+apriori(groceries)
+groceryrules <- apriori(groceries, parameter = list(support =
+0.006, confidence = 0.25, minlen = 2))
+groceryrules
+summary(groceryrules)
+inspect(groceryrules[1:3])
+inspect
+sort(groceryrules,by="lift")
+inspect(sort(groceryrules,by="lift")[1:5])
+berryrules<-subset(groceryrules, item %in% "berries")
+berryrules<-subset(groceryrules, items %in% "berries")
+berryrules
+inspect(berryrules)
+berryrules<-subset(groceryrules, LHS %in% "berries")
+berryrules<-subset(groceryrules, lhs %in% "berries")
+berryrules
+berryrules2<-subset(groceryrules, rhs %in% "berries")
+berryrules2
+berryrules2<-subset(groceryrules, rhs %in% c("berries","yogurt")
+)
+berryrules2
+berryrules2<-subset(groceryrules, items %in% c("berries","yogurt"))
+berryrules2
